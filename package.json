@@ -1,0 +1,20 @@
+{
+  "name": "two-factor-authentication",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha.js ./tests",
+    "test:watch": "./node_modules/mocha/bin/mocha.js -w ./tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "short-uuid": "^4.2.0"
+  },
+  "devDependencies": {
+    "mocha": "^10.0.0"
+  }
+}
