@@ -16,14 +16,14 @@ module.exports = class UserAuthentication {
         passwordHash,
         tokenService
     ) {
-        this.#validateDependecies(repository, emailGateway, passwordHash, tokenService);
+        this.#validateDependencies(repository, emailGateway, passwordHash, tokenService);
         this.#repository = repository;
         this.#emailGateway = emailGateway;
         this.#passwordHash = passwordHash;
         this.#tokenService = tokenService;
     }
 
-    #validateDependecies(repository, emailGateway, passwordHash, tokenService) {
+    #validateDependencies(repository, emailGateway, passwordHash, tokenService) {
         if (!this.#isInstanceOf(repository, IRepository)) {
             throw Error('Invalid object repository');
         }
@@ -56,22 +56,22 @@ module.exports = class UserAuthentication {
         }
     }
 
+    #validateUserDataInput(user) {
+        if (!this.#isInstanceOf(user, User)) {
+            throw Error('Invalid object user');
+        }
+    }
+
     async getUserRegistered(user) {
         let userRegistered = null;
 
         try {
             userRegistered = await this.#repository.findByEmail(user.email);
         } catch (e) {
-            throw Error(e);
+            throw Error('User not found!');
         }
 
         return this.#getUserValidated(userRegistered, user);
-    }
-
-    #validateUserDataInput(user) {
-        if (!this.#isInstanceOf(user, User)) {
-            throw Error('Invalid object user');
-        }
     }
 
     #getUserValidated(userRegistered, user) {
