@@ -1,7 +1,12 @@
 const IEmail = require('../../src/domain/iemail');
 
 module.exports = class EmailMock extends IEmail {
+    throwException = false;
+
     send(user, token) {
-        Promise.resolve('Sent!');
+        if (this.throwException) {
+            throw Error();
+        }
+        return Promise.resolve('Sent!');
     }
 }
