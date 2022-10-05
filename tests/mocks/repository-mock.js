@@ -24,7 +24,7 @@ module.exports = class RepositoryMock extends IRepository {
         return Promise.resolve(user);
     }
 
-    updateToken(user, authToken, authTokenEmail) {
+    update(user) {
         if (this.throwExceptionUpdate) {
             throw Error();
         }
