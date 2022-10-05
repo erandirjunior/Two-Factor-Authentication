@@ -43,14 +43,13 @@ module.exports = class UserAuthentication {
 
     async authenticate(user) {
         this.#validateUserDataInput(user);
-
         const userRegistered = await this.getUserRegistered(user);
-        const {token, emailToken} = this.#getTokens();
 
         try {
-            await this.#repository.updateToken(userRegistered, token, emailToken);
-            await this.#emailGateway.send(userRegistered, token, emailToken);
-            return token;
+            this.#updateUserData(userRegistered);
+            await this.#repository.update(userRegistered);
+            await this.#emailGateway.send(userRegistered);
+            return userRegistered.token;
         } catch (error) {
             throw Error(error);
         }
@@ -98,5 +97,18 @@ module.exports = class UserAuthentication {
 
     #isInstanceOf(object, instanceBase) {
         return object instanceof instanceBase;
+    }
+
+    #updateUserData(user) {
+        const {token, emailToken} = this.#getTokens();
+        user.emailToken = emailToken;
+        user.token = token;
+        user.expireDate = this.#getExpireDateToken();
+    }
+
+    #getExpireDateToken() {
+        const date = new Date();
+        date.setMinutes(date.getMinutes() + 15);
+        return date;
     }
 }
