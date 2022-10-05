@@ -2,9 +2,9 @@ const User = require('./user');
 
 module.exports = class UserRegistered extends User {
     #id;
-    token
-    emailToken
-    expireDate
+    token;
+    emailToken;
+    expireDate;
 
     constructor({id, email, password, token, emailToken, expireDate}) {
         super({email, password})
