@@ -3,7 +3,7 @@ module.exports = class IRepository {
         throw Error('Must be implemented');
     }
 
-    updateToken(user, authToken, authTokenEmail) {
+    update(user) {
         throw Error('Must be implemented');
     }
 }

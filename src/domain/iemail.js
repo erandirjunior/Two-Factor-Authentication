@@ -1,5 +1,5 @@
 module.exports = class IEmail {
-    send(user, token) {
+    send(user) {
         throw new Error('Method must be implemented!');
     }
 }
