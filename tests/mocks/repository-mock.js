@@ -1,12 +1,11 @@
 const IRepository = require('../../src/domain/irepository');
-const UserRegistered = require('../../src/domain/user-registered');
+const User = require('../../src/domain/user');
 
 module.exports = class RepositoryMock extends IRepository {
     throwException = false;
     throwExceptionUpdate = false;
     userWithoutId = false;
     constructor() {
-
         super();
     }
 
@@ -15,10 +14,10 @@ module.exports = class RepositoryMock extends IRepository {
             throw Error();
         }
 
-        let user = new UserRegistered({id: 1, email: 'erandir@email.com', password: '123456'});
+        let user = new User({id: 1, email: 'erandir@email.com', password: '123456'});
 
         if (this.userWithoutId) {
-            user = new UserRegistered({id: 1, email: 'erandir@email.com', password: '123456'});
+            user = new User({id: 1, email: 'erandir@email.com', password: '123456'});
         }
 
         return Promise.resolve(user);
