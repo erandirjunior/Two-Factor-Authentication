@@ -7,7 +7,6 @@ module.exports = class User {
         this.#password = password;
     }
 
-
     get email() {
         return this.#email;
     }

@@ -3,6 +3,7 @@ const IRepository = require('./irepository');
 const IEmail = require('./iemail');
 const IPasswordHash = require('./ipassword-hash');
 const IToken = require('./itoken');
+const UserRegistered = require('./user-registered');
 
 module.exports = class UserAuthentication {
     #repository;
@@ -46,10 +47,10 @@ module.exports = class UserAuthentication {
         const userRegistered = await this.getUserRegistered(user);
 
         try {
-            this.#updateUserData(userRegistered);
-            await this.#repository.update(userRegistered);
-            await this.#emailGateway.send(userRegistered);
-            return userRegistered.token;
+            const updatedUser = this.#getUserWithUpdatedData(userRegistered);
+            await this.#repository.update(updatedUser);
+            await this.#emailGateway.send(updatedUser);
+            return updatedUser.token;
         } catch (error) {
             throw Error(error);
         }
@@ -99,11 +100,17 @@ module.exports = class UserAuthentication {
         return object instanceof instanceBase;
     }
 
-    #updateUserData(user) {
+    #getUserWithUpdatedData(user) {
         const {token, emailToken} = this.#getTokens();
-        user.emailToken = emailToken;
-        user.token = token;
-        user.expireDate = this.#getExpireDateToken();
+        const expireDateToken = this.#getExpireDateToken();
+        return new UserRegistered({
+            id: user.id,
+            email: user.email,
+            emailToken: emailToken,
+            token: token,
+            password: user.password,
+            expireDate: expireDateToken
+        });
     }
 
     #getExpireDateToken() {
