@@ -3,7 +3,6 @@ const IRepository = require('./irepository');
 const IEmail = require('./iemail');
 const IPasswordHash = require('./ipassword-hash');
 const IToken = require('./itoken');
-const UserRegistered = require('./user-registered');
 
 module.exports = class UserAuthentication {
     #repository;
@@ -26,31 +25,31 @@ module.exports = class UserAuthentication {
 
     #validateDependencies(repository, emailGateway, passwordHash, tokenService) {
         if (!this.#isInstanceOf(repository, IRepository)) {
-            throw Error('Invalid object repository');
+            throw Error('Invalid repository dependency');
         }
 
         if (!this.#isInstanceOf(emailGateway, IEmail)) {
-            throw Error('Invalid object gateway');
+            throw Error('Invalid gateway dependency');
         }
 
         if (!this.#isInstanceOf(passwordHash, IPasswordHash)) {
-            throw Error('Invalid object hash');
+            throw Error('Invalid hash dependency');
         }
 
         if (!this.#isInstanceOf(tokenService, IToken)) {
-            throw Error('Invalid object token');
+            throw Error('Invalid token dependency');
         }
     }
 
-    async authenticate(user) {
-        this.#validateUserDataInput(user);
-        const userRegistered = await this.getUserRegistered(user);
+    async authenticate(userLoginData) {
+        this.#validateUserDataInput(userLoginData);
+        const registeredUser = await this.getUserRegistered(userLoginData);
 
         try {
-            const updatedUser = this.#getUserWithUpdatedData(userRegistered);
-            await this.#repository.update(updatedUser);
-            await this.#emailGateway.send(updatedUser);
-            return updatedUser.token;
+            const user = this.#getUserWithUpdatedData(registeredUser);
+            await this.#repository.update(user);
+            await this.#emailGateway.send(user);
+            return user.token;
         } catch (error) {
             throw Error(error);
         }
@@ -63,27 +62,27 @@ module.exports = class UserAuthentication {
     }
 
     async getUserRegistered(user) {
-        let userRegistered = null;
+        let registeredUser = null;
 
         try {
-            userRegistered = await this.#repository.findByEmail(user.email);
+            registeredUser = await this.#repository.findByEmail(user.email);
         } catch (e) {
             throw Error('User not found!');
         }
 
-        return this.#getUserValidated(userRegistered, user);
+        return this.#getUserValidated(registeredUser, user);
     }
 
-    #getUserValidated(userRegistered, user) {
-        if (!userRegistered || !userRegistered.id) {
-            throw Error('User not found!');
+    #getUserValidated(registeredUser, user) {
+        if (!this.#isInstanceOf(registeredUser, User) || !registeredUser.id) {
+            throw Error('Invalid user instance');
         }
 
-        if (!this.#isValidPassword(user.password, userRegistered.password)) {
+        if (!this.#isValidPassword(user.password, registeredUser.password)) {
             throw Error('Invalid password!');
         }
 
-        return userRegistered;
+        return registeredUser;
     }
 
     #isValidPassword(user, password) {
@@ -91,9 +90,10 @@ module.exports = class UserAuthentication {
     }
 
     #getTokens() {
-        const token = this.#tokenService.getToken();
-        const emailToken = this.#tokenService.getEmailToken();
-        return {token, emailToken};
+        return {
+            token: this.#tokenService.getToken(),
+            emailToken: this.#tokenService.getEmailToken()
+        }
     }
 
     #isInstanceOf(object, instanceBase) {
@@ -101,15 +101,12 @@ module.exports = class UserAuthentication {
     }
 
     #getUserWithUpdatedData(user) {
-        const {token, emailToken} = this.#getTokens();
-        const expireDateToken = this.#getExpireDateToken();
-        return new UserRegistered({
+        return new User({
             id: user.id,
             email: user.email,
-            emailToken: emailToken,
-            token: token,
+            ...this.#getTokens(),
             password: user.password,
-            expireDate: expireDateToken
+            expireDate: this.#getExpireDateToken()
         });
     }
 
