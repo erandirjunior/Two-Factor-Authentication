@@ -5,9 +5,9 @@ module.exports = class User {
     #id;
     #email;
     #password;
-    #expireDate;
+    #expired;
 
-    constructor({id, email, password, token, emailToken, expireDate}) {
+    constructor({id, email, password, token, emailToken, expired}) {
         if (!email || !password) {
             throw Error('Fields email end password must be filled!');
         }
@@ -17,7 +17,7 @@ module.exports = class User {
         this.#password = password;
         this.token = token;
         this.emailToken = emailToken;
-        this.#expireDate = expireDate;
+        this.#expired = expired;
     }
 
     get id() {
@@ -28,8 +28,8 @@ module.exports = class User {
         return parseInt(this.#id);
     }
 
-    get expireDate() {
-        return this.#expireDate;
+    get expired() {
+        return !!this.#expired;
     }
 
     get email() {
