@@ -3,6 +3,7 @@ const IRepository = require('./irepository');
 const IEmail = require('./iemail');
 const IPasswordHash = require('./ipassword-hash');
 const IToken = require('./itoken');
+const LoginPayload = require('./login-payload')
 
 module.exports = class UserAuthentication {
     #repository;
@@ -41,9 +42,9 @@ module.exports = class UserAuthentication {
         }
     }
 
-    async authenticate(userLoginData) {
-        this.#validateUserDataInput(userLoginData);
-        const registeredUser = await this.getUserRegistered(userLoginData);
+    async authenticate(loginPayload) {
+        this.#validateUserDataInput(loginPayload);
+        const registeredUser = await this.getUserRegistered(loginPayload);
 
         try {
             const user = this.#getUserWithUpdatedData(registeredUser);
@@ -55,9 +56,9 @@ module.exports = class UserAuthentication {
         }
     }
 
-    #validateUserDataInput(user) {
-        if (!this.#isInstanceOf(user, User)) {
-            throw Error('Invalid object user');
+    #validateUserDataInput(loginPayload) {
+        if (!this.#isInstanceOf(loginPayload, LoginPayload)) {
+            throw Error('Invalid payload');
         }
     }
 

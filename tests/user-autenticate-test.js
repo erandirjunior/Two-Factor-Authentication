@@ -4,7 +4,8 @@ const EmailMock = require('./mocks/email-mock');
 const RepositoryMock = require('./mocks/repository-mock');
 const HashMock = require('./mocks/hash-mock');
 const TokenMock = require('./mocks/token-mock');
-const User = require('../src/domain/user');
+const LoginPayload = require('../src/domain/login-payload');
+const payload = new LoginPayload('erandir@email.com', '1234567');
 
 describe('User Authentication', function () {
     it('Invalid object repository', function () {
@@ -52,7 +53,7 @@ describe('User Authentication', function () {
         assert.throws(result, expected)
     });
 
-    it('Invalid object use token', async () => {
+    it('Invalid object login payload', async () => {
         const expected = Error;
         const userAuthentication = new UserAuthentication(
             new RepositoryMock(),
@@ -75,15 +76,12 @@ describe('User Authentication', function () {
             new TokenMock()
         );
 
-        const result = async () => await userAuthentication.authenticate(new User({
-            email: 'erandir@email.com',
-            password: '1234567'
-        }));
+        const result = async () => await userAuthentication.authenticate(payload);
 
         assert.rejects(result, expected)
     });
 
-    it('Error user update', async () => {
+    it('Error update user', async () => {
         const expected = Error;
         const repository = new RepositoryMock();
         repository.throwExceptionUpdate = true;
@@ -95,10 +93,7 @@ describe('User Authentication', function () {
             new TokenMock()
         );
 
-        const result = async () => await userAuthentication.authenticate(new User({
-            email: 'erandir@email.com',
-            password: '1234567'
-        }));
+        const result = async () => await userAuthentication.authenticate(payload);
 
         assert.rejects(result, expected)
     });
@@ -115,10 +110,7 @@ describe('User Authentication', function () {
             new TokenMock()
         );
 
-        const result = async () => await userAuthentication.authenticate(new User({
-            email: 'erandir@email.com',
-            password: '1234567'
-        }));
+        const result = async () => await userAuthentication.authenticate(payload);
 
         assert.rejects(result, expected)
     });
@@ -135,10 +127,7 @@ describe('User Authentication', function () {
             new TokenMock()
         );
 
-        const result = async () => await userAuthentication.authenticate(new User({
-            email: 'erandir@email.com',
-            password: '1234567'
-        }));
+        const result = async () => await userAuthentication.authenticate(payload);
 
         assert.rejects(result, expected)
     });
@@ -155,10 +144,7 @@ describe('User Authentication', function () {
             new TokenMock()
         );
 
-        const result = async () => await userAuthentication.authenticate(new User({
-            email: 'erandir@email.com',
-            password: '1234567'
-        }));
+        const result = async () => await userAuthentication.authenticate(payload);
 
         assert.rejects(result, expected)
     });
@@ -170,10 +156,7 @@ describe('User Authentication', function () {
             new HashMock(),
             new TokenMock()
         );
-        const result = await userAuthentication.authenticate(new User({
-            email: 'erandir@email.com',
-            password: '1234567'
-        }));
+        const result = await userAuthentication.authenticate(payload);
 
         assert.equal(result, '13eb4cb6-35dd-4536-97e6-0ed0e4fb1fb3');
     });
