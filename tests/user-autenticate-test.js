@@ -6,15 +6,21 @@ const HashMock = require('./mocks/hash-mock');
 const TokenMock = require('./mocks/token-mock');
 const LoginPayload = require('../src/domain/login-payload');
 const payload = new LoginPayload('erandir@email.com', '1234567');
+const userAuthentication = new UserAuthentication(
+    RepositoryMock,
+    EmailMock,
+    HashMock,
+    TokenMock
+);
 
 describe('User Authentication', function () {
     it('Invalid object repository', function () {
         const expected = Error;
         const result = () => new UserAuthentication(
             {},
-            new EmailMock(),
-            new HashMock(),
-            new TokenMock()
+            EmailMock,
+            HashMock,
+            TokenMock
         );
         assert.throws(result, expected)
     });
@@ -22,10 +28,10 @@ describe('User Authentication', function () {
     it('Invalid object email', function () {
         const expected = Error;
         const result = () => new UserAuthentication(
-            new RepositoryMock(),
+            RepositoryMock,
             {},
-            new HashMock(),
-            new TokenMock()
+            HashMock,
+            TokenMock
         );
         assert.throws(result, expected)
     });
@@ -33,10 +39,10 @@ describe('User Authentication', function () {
     it('Invalid object hash', function () {
         const expected = Error;
         const result = () => new UserAuthentication(
-            new RepositoryMock(),
-            new EmailMock(),
+            RepositoryMock,
+            EmailMock,
             {},
-            new TokenMock()
+            TokenMock
         );
         assert.throws(result, expected)
     });
@@ -44,9 +50,9 @@ describe('User Authentication', function () {
     it('Invalid object token', function () {
         const expected = Error;
         const result = () => new UserAuthentication(
-            new RepositoryMock(),
-            new EmailMock(),
-            new HashMock(),
+            RepositoryMock,
+            EmailMock,
+            HashMock,
             {}
         );
 
@@ -55,107 +61,57 @@ describe('User Authentication', function () {
 
     it('Invalid object login payload', async () => {
         const expected = Error;
-        const userAuthentication = new UserAuthentication(
-            new RepositoryMock(),
-            new EmailMock(),
-            new HashMock(),
-            new TokenMock()
-        );
         const result = async () => await userAuthentication.authenticate({});
+
         assert.rejects(result, expected)
     });
 
     it('Error find user', async () => {
+        RepositoryMock.throwException = true;
         const expected = Error;
-        const repository = new RepositoryMock();
-        repository.throwException = true;
-        const userAuthentication = new UserAuthentication(
-            repository,
-            new EmailMock(),
-            new HashMock(),
-            new TokenMock()
-        );
-
         const result = async () => await userAuthentication.authenticate(payload);
 
         assert.rejects(result, expected)
     });
 
     it('Error update user', async () => {
+        RepositoryMock.throwExceptionUpdate = true;
         const expected = Error;
-        const repository = new RepositoryMock();
-        repository.throwExceptionUpdate = true;
-
-        const userAuthentication = new UserAuthentication(
-            repository,
-            new EmailMock(),
-            new HashMock(),
-            new TokenMock()
-        );
-
         const result = async () => await userAuthentication.authenticate(payload);
 
         assert.rejects(result, expected)
     });
 
     it('Error email exception', async () => {
+        EmailMock.throwException = true;
         const expected = Error;
-        const email = new EmailMock();
-        email.throwException = true;
-
-        const userAuthentication = new UserAuthentication(
-            new RepositoryMock(),
-            email,
-            new HashMock(),
-            new TokenMock()
-        );
-
         const result = async () => await userAuthentication.authenticate(payload);
 
         assert.rejects(result, expected)
     });
 
     it('Error user without id', async () => {
+        RepositoryMock.userWithoutId = true;
         const expected = Error;
-        const repository = new RepositoryMock();
-        repository.userWithoutId = true;
-
-        const userAuthentication = new UserAuthentication(
-            repository,
-            new EmailMock(),
-            new HashMock(),
-            new TokenMock()
-        );
-
         const result = async () => await userAuthentication.authenticate(payload);
 
         assert.rejects(result, expected)
     });
 
     it('Error user divergent password', async () => {
+        HashMock.passwordsAreEquals = false;
         const expected = Error;
-        const hash = new HashMock();
-        hash.passwordsAreEquals = false;
-
-        const userAuthentication = new UserAuthentication(
-            new RepositoryMock(),
-            new EmailMock(),
-            hash,
-            new TokenMock()
-        );
-
         const result = async () => await userAuthentication.authenticate(payload);
 
         assert.rejects(result, expected)
     });
 
     it('Get token', async () => {
-        const userAuthentication = new UserAuthentication(
-            new RepositoryMock(),
-            new EmailMock(),
-            new HashMock(),
-            new TokenMock()
-        );
+        RepositoryMock.throwExceptionUpdate = false;
+        RepositoryMock.throwException = false;
+        RepositoryMock.userWithoutId = false;
+        HashMock.passwordsAreEquals = true;
+        EmailMock.throwException = false;
         const result = await userAuthentication.authenticate(payload);
 
         assert.equal(result, '13eb4cb6-35dd-4536-97e6-0ed0e4fb1fb3');

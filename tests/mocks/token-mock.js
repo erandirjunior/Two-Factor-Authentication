@@ -1,6 +1,6 @@
 const IToken = require('../../src/domain/itoken');
 
-module.exports = class TokenMock extends IToken {
+class TokenMock extends IToken {
     constructor() {
         super();
     }
@@ -13,3 +13,5 @@ module.exports = class TokenMock extends IToken {
         return  '4RV651gR93hDAGiTCYhmhh';
     }
 }
+
+module.exports = new TokenMock();

@@ -1,10 +1,11 @@
 const IRepository = require('../../src/domain/irepository');
 const User = require('../../src/domain/user');
 
-module.exports = class RepositoryMock extends IRepository {
+class RepositoryMock extends IRepository {
     throwException = false;
     throwExceptionUpdate = false;
     userWithoutId = false;
+
     constructor() {
         super();
     }
@@ -30,3 +31,5 @@ module.exports = class RepositoryMock extends IRepository {
         return Promise.resolve(true);
     }
 }
+
+module.exports = new RepositoryMock();

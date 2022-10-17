@@ -1,6 +1,6 @@
 const IPasswordHash = require('../../src/domain/ipassword-hash.js');
 
-module.exports = class HashMock extends IPasswordHash {
+class HashMock extends IPasswordHash {
     passwordsAreEquals = true;
 
     constructor() {
@@ -15,3 +15,5 @@ module.exports = class HashMock extends IPasswordHash {
         return this.passwordsAreEquals;
     }
 }
+
+module.exports = new HashMock();
