@@ -90,13 +90,6 @@ module.exports = class UserAuthentication {
         return this.#passwordHash.isEqual(user, password);
     }
 
-    #getTokens() {
-        return {
-            token: this.#tokenService.getToken(),
-            emailToken: this.#tokenService.getEmailToken()
-        }
-    }
-
     #isInstanceOf(object, instanceBase) {
         return object instanceof instanceBase;
     }
@@ -109,5 +102,12 @@ module.exports = class UserAuthentication {
             password: user.password,
             expired: false
         });
+    }
+
+    #getTokens() {
+        return {
+            token: this.#tokenService.getToken(),
+            emailToken: this.#tokenService.getEmailToken()
+        }
     }
 }
