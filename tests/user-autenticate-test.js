@@ -75,6 +75,7 @@ describe('User Authentication', function () {
     });
 
     it('Error update user', async () => {
+        RepositoryMock.throwException = false;
         RepositoryMock.throwExceptionUpdate = true;
         const expected = Error;
         const result = async () => await userAuthentication.authenticate(payload);
@@ -83,6 +84,7 @@ describe('User Authentication', function () {
     });
 
     it('Error email exception', async () => {
+        RepositoryMock.throwExceptionUpdate = false;
         EmailMock.throwException = true;
         const expected = Error;
         const result = async () => await userAuthentication.authenticate(payload);
@@ -91,6 +93,7 @@ describe('User Authentication', function () {
     });
 
     it('Error user without id', async () => {
+        EmailMock.throwException = false;
         RepositoryMock.userWithoutId = true;
         const expected = Error;
         const result = async () => await userAuthentication.authenticate(payload);
@@ -99,6 +102,7 @@ describe('User Authentication', function () {
     });
 
     it('Error user divergent password', async () => {
+        RepositoryMock.userWithoutId = false;
         HashMock.passwordsAreEquals = false;
         const expected = Error;
         const result = async () => await userAuthentication.authenticate(payload);
@@ -107,11 +111,7 @@ describe('User Authentication', function () {
     });
 
     it('Get token', async () => {
-        RepositoryMock.throwExceptionUpdate = false;
-        RepositoryMock.throwException = false;
-        RepositoryMock.userWithoutId = false;
         HashMock.passwordsAreEquals = true;
-        EmailMock.throwException = false;
         const result = await userAuthentication.authenticate(payload);
 
         assert.equal(result, '13eb4cb6-35dd-4536-97e6-0ed0e4fb1fb3');
