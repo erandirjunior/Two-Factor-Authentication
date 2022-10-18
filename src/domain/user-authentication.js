@@ -2,7 +2,7 @@ const User = require('./user');
 const IRepository = require('./irepository');
 const IEmail = require('./iemail');
 const IPasswordHash = require('./ipassword-hash');
-const IToken = require('./itoken');
+const IGenerateToken = require('./igenerate-token');
 const LoginPayload = require('./login-payload')
 
 module.exports = class UserAuthentication {
@@ -37,7 +37,7 @@ module.exports = class UserAuthentication {
             throw Error('Invalid hash dependency');
         }
 
-        if (!this.#isInstanceOf(tokenService, IToken)) {
+        if (!this.#isInstanceOf(tokenService, IGenerateToken)) {
             throw Error('Invalid token dependency');
         }
     }
