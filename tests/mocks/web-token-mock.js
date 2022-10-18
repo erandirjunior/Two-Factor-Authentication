@@ -1,6 +1,6 @@
-const IWebToken = require('../../src/domain/iweb-token');
+const IToken = require('../../src/domain/itoken');
 
-class WebTokenMock extends IWebToken {
+class WebTokenMock extends IToken {
     throwException = false;
 
     constructor() {

@@ -1,4 +1,4 @@
-const IWebToken = require('./iweb-token');
+const IToken = require('./itoken');
 const ITokenRepository = require('./itoken-repository');
 const Token = require('./token');
 
@@ -14,11 +14,11 @@ module.exports = class TokenAuthentication {
 
     #validateDependencies(repository, webToken) {
         if (!this.#isInstanceOf(repository, ITokenRepository)) {
-            throw Error('Invalid object repository');
+            throw Error('Invalid dependency repository');
         }
 
-        if (!this.#isInstanceOf(webToken, IWebToken)) {
-            throw Error('Invalid object web token');
+        if (!this.#isInstanceOf(webToken, IToken)) {
+            throw Error('Invalid dependency token');
         }
     }
 
