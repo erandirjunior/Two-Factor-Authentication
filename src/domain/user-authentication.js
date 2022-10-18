@@ -3,7 +3,8 @@ const IRepository = require('./irepository');
 const IEmail = require('./iemail');
 const IPasswordHash = require('./ipassword-hash');
 const IGenerateToken = require('./igenerate-token');
-const LoginPayload = require('./login-payload')
+const LoginPayload = require('./login-payload');
+const { isInstanceOf } = require('./instanceof');
 
 module.exports = class UserAuthentication {
     #repository;
@@ -91,7 +92,7 @@ module.exports = class UserAuthentication {
     }
 
     #isInstanceOf(object, instanceBase) {
-        return object instanceof instanceBase;
+        return isInstanceOf(object, instanceBase)
     }
 
     #getUserWithUpdatedData(user) {

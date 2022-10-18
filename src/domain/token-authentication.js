@@ -1,6 +1,7 @@
 const IToken = require('./itoken');
 const ITokenRepository = require('./itoken-repository');
 const Token = require('./token');
+const { isInstanceOf } = require('./instanceof');
 
 module.exports = class TokenAuthentication {
     #repository;
@@ -53,6 +54,6 @@ module.exports = class TokenAuthentication {
     }
 
     #isInstanceOf(object, instanceBase) {
-        return object instanceof instanceBase;
+        return isInstanceOf(object, instanceBase)
     }
 }
