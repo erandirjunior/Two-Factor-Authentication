@@ -4,7 +4,7 @@ services:
     container_name: authenticate_project
     build: .
     ports: 
-      - "8080:8080"
+      - "8001:8001"
     volumes: 
       - .:/app:rw
     restart: "no"
