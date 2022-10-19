@@ -9,7 +9,7 @@ const { isInstanceOf } = require('./instanceof');
 module.exports = class UserAuthentication {
     #repository;
     #emailGateway;
-    #passwordHash;
+    #hashService;
     #tokenService;
 
     constructor(
@@ -21,7 +21,7 @@ module.exports = class UserAuthentication {
         this.#validateDependencies(repository, emailGateway, passwordHash, tokenService);
         this.#repository = repository;
         this.#emailGateway = emailGateway;
-        this.#passwordHash = passwordHash;
+        this.#hashService = passwordHash;
         this.#tokenService = tokenService;
     }
 
@@ -75,20 +75,18 @@ module.exports = class UserAuthentication {
         return this.#getUserValidated(registeredUser, user);
     }
 
-    #getUserValidated(registeredUser, user) {
+    async #getUserValidated(registeredUser, user) {
         if (!this.#isInstanceOf(registeredUser, User) || !registeredUser.id) {
             throw Error('Invalid user instance');
         }
 
-        if (!this.#isValidPassword(user.password, registeredUser.password)) {
+        const passwordsAreEquals = await this.#hashService.compare(user.password, registeredUser.password);
+
+        if (!passwordsAreEquals) {
             throw Error('Invalid password!');
         }
 
         return registeredUser;
-    }
-
-    #isValidPassword(user, password) {
-        return this.#passwordHash.isEqual(user, password);
     }
 
     #isInstanceOf(object, instanceBase) {

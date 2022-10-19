@@ -7,11 +7,7 @@ class HashMock extends IPasswordHash {
         super();
     }
 
-    encrypt(password) {
-        return 'Ajd$%*DndkjjdsjIQIei746';
-    }
-
-    isEqual(password, hash) {
+    compare(password, hash) {
         return this.passwordsAreEquals;
     }
 }
