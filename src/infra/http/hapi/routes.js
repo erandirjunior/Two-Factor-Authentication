@@ -1,4 +1,22 @@
 const Joi = require('joi');
+const UserAuthentication = require('./../../../domain/user-authentication');
+const LoginPayload = require('./../../../domain/login-payload');
+const { Repository } = require('./../../persistence/repository');
+const { loadModel } = require('./../../persistence/model');
+const PasswordHash = require('./../../hash/password-hash');
+const TokenService = require('./../../token/token-service');
+
+const createUserAuthentication = async () => {
+    const userModel = await loadModel();
+    const repository = new Repository(userModel);
+    return new UserAuthentication(
+        repository,
+        {},
+        new PasswordHash(),
+        new TokenService()
+    );
+}
+
 const failAction = (request, h, err) => {
     request.log('error', err);
     throw err;
@@ -17,8 +35,18 @@ const routes = [
         },
         method: 'POST',
         path: '/login',
-        handler: (request, h) => {
-            return request.payload;
+        handler: async (request, h) => {
+            try {
+                const { payload } = request;
+                const userAuthentication = await createUserAuthentication();
+                const loginPayload = new LoginPayload(payload.email, payload.password);
+                const result = await userAuthentication.authenticate(loginPayload);
+                console.log('result', result);
+                return result;
+            } catch (e) {
+                console.log(e)
+            }
+
         }
     },
     {
