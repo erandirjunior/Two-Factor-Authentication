@@ -1,6 +1,6 @@
 const { config } = require('dotenv');
 
-const loadEnv = () => {
+const loadEnv = async () => {
     const env = process.env.NODE_ENV || '';
 
     const configPath = `.env${env}`;
