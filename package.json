@@ -16,6 +16,7 @@
     "@hapi/hapi": "^20.2.2",
     "@hapi/inert": "^7.0.0",
     "@hapi/vision": "^7.0.0",
+    "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "joi": "^17.6.3",
     "jsonwebtoken": "^8.5.1",
