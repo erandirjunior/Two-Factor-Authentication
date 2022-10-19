@@ -1,7 +1,7 @@
 version: '3.9'
 services:
-  two_factor_authenticate:
-    container_name: authenticate_project
+  two_factor_authentication:
+    container_name: authentication_project
     build: .
     ports: 
       - "8001:8001"
@@ -13,3 +13,38 @@ services:
     tty: true
     environment:
       - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - db_two_factor
+    networks:
+      - pg-network
+  adminer:
+    image: adminer
+    container_name: adminer_sgbd_two_factor_authentication
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db_two_factor
+    restart: always
+    networks:
+      - pg-network
+  db_two_factor:
+    image: postgres:latest
+    container_name: db_two_factor_authentication
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=heroes
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    networks:
+      - pg-network
+    volumes:
+      - dba:/var/lib/postgresql
+
+volumes:
+  dba:
+
+networks:
+  pg-network:
+    driver: bridge
