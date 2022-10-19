@@ -33,10 +33,10 @@ class Repository extends IRepository {
         const data = {
             token: user.token,
             email_token: user.emailToken,
-            expired: false
+            expired: user.expired
         }
 
-        await model.update(data, {
+        await this.#model.update(data, {
             where: {
                 id: user.id
             }
