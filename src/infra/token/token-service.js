@@ -1,7 +1,7 @@
 const Short = require('short-uuid');
-const IToken = require('../../domain/itoken.js');
+const IGenerateToken = require("../../domain/igenerate-token");
 
-module.exports = class TokenService extends IToken {
+module.exports = class TokenService extends IGenerateToken {
     constructor() {
         super();
     }
