@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start:dev": "node_modules/nodemon/bin/nodemon.js index.js",
     "test": "./node_modules/mocha/bin/mocha.js ./tests",
     "test:watch": "./node_modules/mocha/bin/mocha.js -w ./tests"
   },
@@ -26,6 +27,7 @@
     "short-uuid": "^4.2.0"
   },
   "devDependencies": {
-    "mocha": "^10.0.0"
+    "mocha": "^10.0.0",
+    "nodemon": "^2.0.20"
   }
 }
