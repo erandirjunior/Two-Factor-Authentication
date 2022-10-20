@@ -31,7 +31,7 @@ module.exports = class UserAuthentication {
         }
 
         if (!this.#isInstanceOf(emailGateway, IEmail)) {
-            // throw Error('Invalid gateway dependency');
+            throw Error('Invalid gateway dependency');
         }
 
         if (!this.#isInstanceOf(passwordHash, IPasswordHash)) {
@@ -50,7 +50,7 @@ module.exports = class UserAuthentication {
         try {
             const user = this.#getUserWithUpdatedData(registeredUser);
             await this.#repository.update(user);
-            // await this.#emailGateway.send(user);
+            this.#emailGateway.send(user);
             return user.token;
         } catch (error) {
             throw Error(error);

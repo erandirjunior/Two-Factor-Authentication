@@ -9,13 +9,14 @@ const TokenService = require('./../../token/token-service');
 const Jwt = require('./../../jwt/jwt');
 const Token = require('./../../../domain/token');
 const Boom = require('@hapi/boom');
+const Email = require('./../../email/email');
 
 const createUserAuthentication = async () => {
     const userModel = await loadModel();
     const repository = new Repository(userModel);
     return new UserAuthentication(
         repository,
-        {},
+        new Email(),
         new PasswordHash(),
         new TokenService()
     );
@@ -54,7 +55,6 @@ const routes = [
                 const userAuthentication = await createUserAuthentication();
                 const loginPayload = new LoginPayload(payload.email, payload.password);
                 const result = await userAuthentication.authenticate(loginPayload);
-                console.log('result', result);
                 return result;
             } catch (e) {
                 return Boom.internal();
