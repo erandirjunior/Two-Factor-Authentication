@@ -1,10 +1,14 @@
 const Joi = require('joi');
 const UserAuthentication = require('./../../../domain/user-authentication');
+const TokenAuthentication = require('./../../../domain/token-authentication');
 const LoginPayload = require('./../../../domain/login-payload');
-const { Repository } = require('./../../persistence/repository');
+const { Repository, TokenRepository } = require('./../../persistence/repository');
 const { loadModel } = require('./../../persistence/model');
 const PasswordHash = require('./../../hash/password-hash');
 const TokenService = require('./../../token/token-service');
+const Jwt = require('./../../jwt/jwt');
+const Token = require('./../../../domain/token');
+const Boom = require('@hapi/boom');
 
 const createUserAuthentication = async () => {
     const userModel = await loadModel();
@@ -14,6 +18,15 @@ const createUserAuthentication = async () => {
         {},
         new PasswordHash(),
         new TokenService()
+    );
+}
+
+const createTokenAuthentication = async () => {
+    const userModel = await loadModel();
+    const repository = new TokenRepository(userModel);
+    return new TokenAuthentication(
+        repository,
+        new Jwt()
     );
 }
 
@@ -44,7 +57,7 @@ const routes = [
                 console.log('result', result);
                 return result;
             } catch (e) {
-                console.log(e)
+                return Boom.internal();
             }
 
         }
@@ -61,8 +74,19 @@ const routes = [
         },
         method: 'POST',
         path: '/token',
-        handler: (request, h) => {
-            return request.payload;
+        handler: async (request, h) => {
+            try {
+                const { payload } = request;
+                const tokenAuthentication = await createTokenAuthentication();
+                const token = new Token(payload);
+                const result = await tokenAuthentication.authenticate(token);
+
+                return {
+                    token: result
+                };
+            } catch (e) {
+                return Boom.internal();
+            }
         }
     },
 
