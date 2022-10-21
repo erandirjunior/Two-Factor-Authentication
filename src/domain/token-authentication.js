@@ -6,6 +6,7 @@ const DomainError = require('./domain-error');
 const GatewayError = require('./gateway-error');
 const InvalidArgumentError = require('./invalid-argument-error');
 const throwError = require('./throw-error');
+const User = require('./user');
 
 module.exports = class TokenAuthentication {
     #repository;
@@ -30,20 +31,23 @@ module.exports = class TokenAuthentication {
     async authenticate(token) {
         this.#throwExceptionIfTokenIsInvalid(token);
         const user = await this.#getUser(token);
-
-        if (!user) {
-            throwError(InvalidArgumentError, 'User not found!');
-        }
-
-        if (user.expired) {
-            throwError(DomainError, 'Token expired. Try login again!');
-        }
+        this.#throwExceptionIfInvalidUser(user);
 
         try {
             await this.#repository.updateExpiredFieldToTrue(user.id);
             return this.#webToken.generateWebToken(user);
         } catch (error) {
             throwError(GatewayError, 'Generic error, check the integrations!');
+        }
+    }
+
+    #throwExceptionIfInvalidUser(user) {
+        if (!isInstanceOf(user, User)) {
+            throwError(DomainError, 'Invalid user object hghsgjh!');
+        }
+
+        if (user.expired) {
+            throwError(DomainError, 'Token expired. Try login again!');
         }
     }
 
