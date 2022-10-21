@@ -2,6 +2,10 @@ const IToken = require('./itoken');
 const ITokenRepository = require('./itoken-repository');
 const Token = require('./token');
 const { isInstanceOf } = require('./instanceof');
+const DomainError = require('./domain-error');
+const GatewayError = require('./gateway-error');
+const InvalidArgumentError = require('./invalid-argument-error');
+const throwError = require('./throw-error');
 
 module.exports = class TokenAuthentication {
     #repository;
@@ -15,11 +19,11 @@ module.exports = class TokenAuthentication {
 
     #validateDependencies(repository, webToken) {
         if (!this.#isInstanceOf(repository, ITokenRepository)) {
-            throw Error('Invalid dependency repository');
+            throwError(DomainError, 'Invalid repository dependency');
         }
 
         if (!this.#isInstanceOf(webToken, IToken)) {
-            throw Error('Invalid dependency token');
+            throwError(DomainError, 'Invalid token dependency');
         }
     }
 
@@ -27,15 +31,19 @@ module.exports = class TokenAuthentication {
         this.#throwExceptionIfTokenIsInvalid(token);
         const user = await this.#getUser(token);
 
+        if (!user) {
+            throwError(InvalidArgumentError, 'User not found!');
+        }
+
         if (user.expired) {
-            throw Error('Token expired. Try login again!');
+            throwError(DomainError, 'Token expired. Try login again!');
         }
 
         try {
             await this.#repository.updateExpiredFieldToTrue(user.id);
             return this.#webToken.generateWebToken(user);
         } catch (error) {
-            throw Error(error);
+            throwError(GatewayError, 'Generic error, check the integrations!');
         }
     }
 
@@ -43,13 +51,13 @@ module.exports = class TokenAuthentication {
         try {
             return await this.#repository.findByToken(token);
         } catch (e) {
-            throw Error(e);
+            throwError(GatewayError, 'Invalid database connection!');
         }
     }
 
     #throwExceptionIfTokenIsInvalid(token) {
         if (!this.#isInstanceOf(token, Token)) {
-            throw Error('Invalid token object!');
+            throwError(DomainError, 'Invalid token object!');
         }
     }
 

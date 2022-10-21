@@ -5,6 +5,10 @@ const IPasswordHash = require('./ipassword-hash');
 const IGenerateToken = require('./igenerate-token');
 const LoginPayload = require('./login-payload');
 const { isInstanceOf } = require('./instanceof');
+const DomainError = require('./domain-error');
+const GatewayError = require('./gateway-error');
+const InvalidArgumentError = require('./invalid-argument-error');
+const throwError = require('./throw-error');
 
 module.exports = class UserAuthentication {
     #repository;
@@ -27,19 +31,19 @@ module.exports = class UserAuthentication {
 
     #validateDependencies(repository, emailGateway, passwordHash, tokenService) {
         if (!this.#isInstanceOf(repository, IRepository)) {
-            throw Error('Invalid repository dependency');
+            throwError(DomainError, 'Invalid repository dependency');
         }
 
         if (!this.#isInstanceOf(emailGateway, IEmail)) {
-            throw Error('Invalid gateway dependency');
+            throwError(DomainError, 'Invalid gateway dependency');
         }
 
         if (!this.#isInstanceOf(passwordHash, IPasswordHash)) {
-            throw Error('Invalid hash dependency');
+            throwError(DomainError, 'Invalid hash dependency');
         }
 
         if (!this.#isInstanceOf(tokenService, IGenerateToken)) {
-            throw Error('Invalid token dependency');
+            throwError(DomainError, 'Invalid token dependency');
         }
     }
 
@@ -53,13 +57,13 @@ module.exports = class UserAuthentication {
             this.#emailGateway.send(user);
             return user.token;
         } catch (error) {
-            throw Error(error);
+            throwError(GatewayError, 'Generic error, see the integrations!');
         }
     }
 
     #validateUserDataInput(loginPayload) {
         if (!this.#isInstanceOf(loginPayload, LoginPayload)) {
-            throw Error('Invalid payload');
+            throwError(DomainError, 'Invalid payload dependency');
         }
     }
 
@@ -69,21 +73,25 @@ module.exports = class UserAuthentication {
         try {
             registeredUser = await this.#repository.findByEmail(user.email);
         } catch (e) {
-            throw Error('User not found!');
+            throwError(GatewayError, 'Error connection database!');
         }
 
         return this.#getUserValidated(registeredUser, user);
     }
 
     async #getUserValidated(registeredUser, user) {
-        if (!this.#isInstanceOf(registeredUser, User) || !registeredUser.id) {
-            throw Error('Invalid user instance');
+        if (!registeredUser) {
+            throwError(InvalidArgumentError, 'User not found with data sent!');
+        }
+
+        if (!this.#isInstanceOf(registeredUser, User)) {
+            throwError(DomainError, 'Invalid user instance');
         }
 
         const passwordsAreEquals = await this.#hashService.compare(user.password, registeredUser.password);
 
         if (!passwordsAreEquals) {
-            throw Error('Invalid password!');
+            throwError(InvalidArgumentError, 'Invalid user data!');
         }
 
         return registeredUser;

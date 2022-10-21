@@ -17,7 +17,7 @@ class Repository extends IRepository {
         });
 
         if (!result) {
-            throw Error('User not found!');
+            return undefined;
         }
 
         return new User({
@@ -64,7 +64,7 @@ class TokenRepository extends ITokenRepository {
         });
 
         if (!result) {
-            throw Error('User not found!');
+            return undefined;
         }
 
         return new User({

@@ -1,3 +1,6 @@
+const DomainError = require('./domain-error');
+const throwError = require('./throw-error')
+
 module.exports = class User {
     token;
     emailToken;
@@ -8,8 +11,8 @@ module.exports = class User {
     #expired;
 
     constructor({id, email, password, token, emailToken, expired}) {
-        if (!email || !password) {
-            throw Error('Fields email end password must be filled!');
+        if (!id || !email || !password) {
+            throwError(DomainError, 'Invalid user data!')
         }
 
         this.#id = id;
@@ -21,10 +24,6 @@ module.exports = class User {
     }
 
     get id() {
-        if (!this.#id) {
-            throw Error('Field id must be filled!');
-        }
-
         return parseInt(this.#id);
     }
 

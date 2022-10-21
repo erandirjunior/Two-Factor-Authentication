@@ -1,4 +1,6 @@
 const Joi = require('joi');
+const InvalidArgumentError = require('./../../../domain/invalid-argument-error');
+const GatewayError = require('./../../../domain/gateway-error');
 const UserAuthentication = require('./../../../domain/user-authentication');
 const TokenAuthentication = require('./../../../domain/token-authentication');
 const LoginPayload = require('./../../../domain/login-payload');
@@ -22,6 +24,18 @@ const createUserAuthentication = async () => {
     );
 }
 
+const handlerError = (error) => {
+    if (error instanceof GatewayError) {
+        return Boom.badGateway(error.message);
+    }
+
+    if (error instanceof InvalidArgumentError) {
+        return Boom.badRequest(error.message);
+    }
+
+    return Boom.badImplementation();
+}
+
 const createTokenAuthentication = async () => {
     const userModel = await loadModel();
     const repository = new TokenRepository(userModel);
@@ -32,7 +46,6 @@ const createTokenAuthentication = async () => {
 }
 
 const failAction = (request, h, err) => {
-    request.log('error', err);
     throw err;
 };
 
@@ -55,11 +68,12 @@ const routes = [
                 const userAuthentication = await createUserAuthentication();
                 const loginPayload = new LoginPayload(payload.email, payload.password);
                 const result = await userAuthentication.authenticate(loginPayload);
-                return result;
+                return {
+                    token: result
+                };
             } catch (e) {
-                return Boom.internal();
+                return handlerError(e);
             }
-
         }
     },
     {
@@ -85,7 +99,7 @@ const routes = [
                     token: result
                 };
             } catch (e) {
-                return Boom.internal();
+                return handlerError(e);
             }
         }
     },

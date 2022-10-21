@@ -1,10 +1,13 @@
+const InvalidArgumentError = require('./invalid-argument-error');
+const throwError = require('./throw-error');
+
 module.exports = class LoginPayload {
     #email;
     #password;
 
     constructor(email, password) {
         if (!email || !password) {
-            throw Error('Fields email end password must be filled!');
+            throwError(InvalidArgumentError, 'Fields email and password must be filled!');
         }
 
         this.#email = email;
