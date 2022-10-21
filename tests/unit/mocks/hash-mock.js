@@ -1,4 +1,4 @@
-const IPasswordHash = require('../../src/domain/ipassword-hash.js');
+const IPasswordHash = require('../../../src/domain/ipassword-hash.js');
 
 class HashMock extends IPasswordHash {
     passwordsAreEquals = true;

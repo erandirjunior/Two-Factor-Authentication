@@ -1,10 +1,11 @@
-const IRepository = require('../../src/domain/irepository');
-const User = require('../../src/domain/user');
+const IRepository = require('../../../src/domain/irepository');
+const User = require('../../../src/domain/user');
 
 class RepositoryMock extends IRepository {
     throwException = false;
     throwExceptionUpdate = false;
-    userWithoutId = false;
+    returnEmptyObject = false;
+    returnEmpty = false;
 
     constructor() {
         super();
@@ -15,11 +16,15 @@ class RepositoryMock extends IRepository {
             throw Error();
         }
 
-        let user = new User({id: 1, email: 'erandir@email.com', password: '123456'});
-
-        if (this.userWithoutId) {
-            user = new User({id: 1, email: 'erandir@email.com', password: '123456'});
+        if (this.returnEmpty) {
+            return '';
         }
+
+        if (this.returnEmptyObject) {
+            return {};
+        }
+
+        const user = new User({id: 1, email: 'erandir@email.com', password: '123456'});
 
         return Promise.resolve(user);
     }

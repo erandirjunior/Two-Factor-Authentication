@@ -1,4 +1,4 @@
-const IToken = require('../../src/domain/itoken');
+const IToken = require('../../../src/domain/itoken');
 
 class WebTokenMock extends IToken {
     throwException = false;

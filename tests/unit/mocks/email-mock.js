@@ -1,4 +1,4 @@
-const IEmail = require('../../src/domain/iemail');
+const IEmail = require('../../../src/domain/iemail');
 
 class EmailMock extends IEmail {
     throwException = false;

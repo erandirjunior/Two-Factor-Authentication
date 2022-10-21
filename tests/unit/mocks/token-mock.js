@@ -1,4 +1,4 @@
-const IGenerateToken = require('../../src/domain/igenerate-token');
+const IGenerateToken = require('../../../src/domain/igenerate-token');
 
 class TokenMock extends IGenerateToken {
     constructor() {
