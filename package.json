@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "node_modules/nodemon/bin/nodemon.js index.js",
-    "test": "./node_modules/mocha/bin/mocha.js ./tests",
+    "test": "nyc --reporter=html ./node_modules/mocha/bin/mocha.js ./tests --exit",
     "test:watch": "./node_modules/mocha/bin/mocha.js -w ./tests"
   },
   "keywords": [],
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "mocha": "^10.0.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "nyc": "^15.1.0"
   }
 }
