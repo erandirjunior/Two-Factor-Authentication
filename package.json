@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "node_modules/nodemon/bin/nodemon.js index.js",
-    "test": "nyc --reporter=html ./node_modules/mocha/bin/mocha.js ./tests --exit",
-    "test:watch": "./node_modules/mocha/bin/mocha.js -w ./tests"
+    "test": "nyc --reporter=html ./node_modules/mocha/bin/mocha.js ./tests/* --exit",
   },
   "keywords": [],
   "author": "",
