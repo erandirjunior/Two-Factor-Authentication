@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "node_modules/nodemon/bin/nodemon.js index.js",
+    "start": "node_modules/nodemon/bin/nodemon.js index.js",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js ./tests/* --coverage --config='{ \"coverageReporters\": [\"html\"] }'\n"
   },
   "keywords": [],
