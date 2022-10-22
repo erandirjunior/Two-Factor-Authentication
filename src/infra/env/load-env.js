@@ -1,9 +1,13 @@
 import { config } from 'dotenv';
 
 const loadEnv = async () => {
-    const env = process.env.NODE_ENV || '';
+    let env = '';
 
-    const configPath = `.env.${env}`;
+    if (process.env.NODE_ENV) {
+        env = `.${process.env.NODE_ENV}`;
+    }
+
+    const configPath = `.env${env}`;
 
     const result = config({
         path: configPath
