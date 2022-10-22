@@ -42,6 +42,10 @@ export default class TokenAuthentication {
     }
 
     #throwExceptionIfInvalidUser(user) {
+        if (!user) {
+            throwError(InvalidArgumentError, 'Tokens sent are invalids. Try again!');
+        }
+
         if (!isInstanceOf(user, User)) {
             throwError(DomainError, 'Invalid user object!');
         }
