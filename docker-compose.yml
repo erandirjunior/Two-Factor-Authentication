@@ -3,9 +3,7 @@ services:
   two_factor_authentication:
     container_name: authentication_project
     build: .
-    ports: 
-      - "8001:8001"
-    volumes: 
+    volumes:
       - .:/app:rw
     restart: "no"
     command: sh
@@ -35,7 +33,7 @@ services:
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=heroes
+      - POSTGRES_DB=two_factor
       - POSTGRES_HOST_AUTH_METHOD=trust
     networks:
       - pg-network
