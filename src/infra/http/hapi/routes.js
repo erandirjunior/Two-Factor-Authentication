@@ -1,28 +1,9 @@
 const Joi = require('joi');
 const InvalidArgumentError = require('./../../../domain/invalid-argument-error');
 const GatewayError = require('./../../../domain/gateway-error');
-const UserAuthentication = require('./../../../domain/user-authentication');
-const TokenAuthentication = require('./../../../domain/token-authentication');
-const LoginPayload = require('./../../../domain/login-payload');
-const { Repository, TokenRepository } = require('./../../persistence/repository');
-const { loadModel } = require('./../../persistence/model');
-const PasswordHash = require('./../../hash/password-hash');
-const TokenService = require('./../../token/token-service');
-const Jwt = require('./../../jwt/jwt');
-const Token = require('./../../../domain/token');
 const Boom = require('@hapi/boom');
-const Email = require('./../../email/email');
-
-const createUserAuthentication = async () => {
-    const userModel = await loadModel();
-    const repository = new Repository(userModel);
-    return new UserAuthentication(
-        repository,
-        new Email(),
-        new PasswordHash(),
-        new TokenService()
-    );
-}
+const createUserAuthentication = require('../../actions/user-authentication-action');
+const createTokenAuthentication = require('../../actions/token-authentication-action');
 
 const handlerError = (error) => {
     if (error instanceof GatewayError) {
@@ -33,16 +14,7 @@ const handlerError = (error) => {
         return Boom.badRequest(error.message);
     }
 
-    return Boom.badImplementation();
-}
-
-const createTokenAuthentication = async () => {
-    const userModel = await loadModel();
-    const repository = new TokenRepository(userModel);
-    return new TokenAuthentication(
-        repository,
-        new Jwt()
-    );
+    return Boom.badImplementation(error);
 }
 
 const failAction = (request, h, err) => {
@@ -52,6 +24,9 @@ const failAction = (request, h, err) => {
 const routes = [
     {
         options: {
+            tags: ['api'],
+            description: 'Get temporary token',
+            notes: 'Login with email and password',
             validate: {
                 payload: Joi.object({
                     email: Joi.string().email().required(),
@@ -65,9 +40,7 @@ const routes = [
         handler: async (request, h) => {
             try {
                 const { payload } = request;
-                const userAuthentication = await createUserAuthentication();
-                const loginPayload = new LoginPayload(payload.email, payload.password);
-                const result = await userAuthentication.authenticate(loginPayload);
+                const result = await createUserAuthentication(payload);
                 return {
                     token: result
                 };
@@ -78,6 +51,9 @@ const routes = [
     },
     {
         options: {
+            tags: ['api'],
+            description: 'Login in the application',
+            notes: 'Login with token and the token receive in e-mail',
             validate: {
                 payload: Joi.object({
                     token: Joi.string().min(35).required(),
@@ -91,10 +67,7 @@ const routes = [
         handler: async (request, h) => {
             try {
                 const { payload } = request;
-                const tokenAuthentication = await createTokenAuthentication();
-                const token = new Token(payload);
-                const result = await tokenAuthentication.authenticate(token);
-
+                const result = await createTokenAuthentication(payload);
                 return {
                     token: result
                 };
@@ -102,8 +75,7 @@ const routes = [
                 return handlerError(e);
             }
         }
-    },
-
+    }
 ]
 
 module.exports = {
