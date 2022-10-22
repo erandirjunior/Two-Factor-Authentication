@@ -1,5 +1,5 @@
-const IRepository = require('../../../src/domain/irepository');
-const User = require('../../../src/domain/user');
+import IRepository from '../../../src/domain/irepository.js';
+import User from '../../../src/domain/user.js';
 
 class RepositoryMock extends IRepository {
     throwException = false;
@@ -37,4 +37,4 @@ class RepositoryMock extends IRepository {
     }
 }
 
-module.exports = new RepositoryMock();
+export default new RepositoryMock();

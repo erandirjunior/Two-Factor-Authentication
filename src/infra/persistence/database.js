@@ -1,6 +1,6 @@
-const { Sequelize } = require('sequelize');
+import { Sequelize } from 'sequelize';
 
-module.exports = class Database {
+export default class Database {
     static connection;
 
     static async getConnection() {

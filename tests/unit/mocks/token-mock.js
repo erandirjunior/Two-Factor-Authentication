@@ -1,4 +1,4 @@
-const IGenerateToken = require('../../../src/domain/igenerate-token');
+import IGenerateToken from '../../../src/domain/igenerate-token.js';
 
 class TokenMock extends IGenerateToken {
     constructor() {
@@ -14,4 +14,4 @@ class TokenMock extends IGenerateToken {
     }
 }
 
-module.exports = new TokenMock();
+export default new TokenMock();

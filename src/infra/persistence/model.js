@@ -1,5 +1,5 @@
-const Database = require('./database');
-const { DataTypes } = require('sequelize');
+import Database from './database.js';
+import { DataTypes } from 'sequelize';
 
 const loadModel = async () => {
     const connection = await Database.getConnection();
@@ -38,6 +38,4 @@ const loadModel = async () => {
     return model;
 }
 
-module.exports = {
-    loadModel
-}
+export default loadModel;

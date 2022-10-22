@@ -1,4 +1,4 @@
-const { config } = require('dotenv');
+import { config } from 'dotenv';
 
 const loadEnv = async () => {
     const env = process.env.NODE_ENV || '';
@@ -14,6 +14,4 @@ const loadEnv = async () => {
     }
 }
 
-module.exports = {
-    loadEnv
-};
+export default loadEnv;

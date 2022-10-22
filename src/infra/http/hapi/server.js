@@ -1,8 +1,8 @@
-const Hapi = require('@hapi/hapi');
-const Vision = require('@hapi/vision');
-const Inert = require('@hapi/inert');
-const HapiSwagger = require('hapi-swagger');
-const { routes } = require('./routes');
+import Hapi from '@hapi/hapi';
+import Vision from '@hapi/vision';
+import Inert from '@hapi/inert';
+import HapiSwagger from 'hapi-swagger';
+import routes from './routes.js';
 
 const init = async () => {
     const server = Hapi.server({
@@ -31,6 +31,4 @@ const init = async () => {
     console.log('Server running on %s', server.info.uri);
 };
 
-module.exports = {
-    init
-}
+export default init;

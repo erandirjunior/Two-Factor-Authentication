@@ -1,10 +1,10 @@
-const { loadModel } = require('../persistence/model');
-const { Repository } = require('../persistence/repository');
-const UserAuthentication = require('../../domain/user-authentication');
-const Email = require('../email/email');
-const PasswordHash = require('../hash/password-hash');
-const TokenService = require('../token/token-service');
-const LoginPayload = require('../../domain/login-payload');
+import loadModel from '../persistence/model.js';
+import { Repository } from '../persistence/repository.js';
+import UserAuthentication from '../../domain/user-authentication.js';
+import Email from '../email/email.js';
+import PasswordHash from '../hash/password-hash.js';
+import TokenService from '../token/token-service.js';
+import LoginPayload from '../../domain/login-payload.js';
 
 const createUserAuthentication = async (payload) => {
     const userModel = await loadModel();
@@ -20,4 +20,4 @@ const createUserAuthentication = async (payload) => {
     return await userAuthentication.authenticate(loginPayload);
 }
 
-module.exports = createUserAuthentication;
+export default createUserAuthentication;

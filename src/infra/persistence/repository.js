@@ -1,8 +1,8 @@
-const IRepository = require('./../../domain/irepository');
-const ITokenRepository = require('./../../domain/itoken-repository');
-const User = require('./../../domain/user');
+import IRepository from './../../domain/irepository.js';
+import ITokenRepository from './../../domain/itoken-repository.js';
+import User from './../../domain/user.js';
 
-class Repository extends IRepository {
+export class Repository extends IRepository {
     #model;
 
     constructor(model) {
@@ -44,7 +44,7 @@ class Repository extends IRepository {
     }
 }
 
-class TokenRepository extends ITokenRepository {
+export class TokenRepository extends ITokenRepository {
     #model;
 
     constructor(model) {
@@ -88,9 +88,4 @@ class TokenRepository extends ITokenRepository {
             }
         });
     }
-}
-
-module.exports = {
-    Repository,
-    TokenRepository
 }

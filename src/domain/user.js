@@ -1,7 +1,7 @@
-const DomainError = require('./domain-error');
-const throwError = require('./throw-error')
+import DomainError from'./domain-error.js';
+import throwError from './throw-error.js';
 
-module.exports = class User {
+export default class User {
     token;
     emailToken;
 

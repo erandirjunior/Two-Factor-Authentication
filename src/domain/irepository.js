@@ -1,4 +1,4 @@
-module.exports = class IRepository {
+export default class IRepository {
     findByEmail(email) {
         throw Error('Must be implemented');
     }

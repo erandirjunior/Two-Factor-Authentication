@@ -1,7 +1,7 @@
-const IToken = require('./../../domain/itoken');
-const JWT = require('jsonwebtoken');
+import IToken from './../../domain/itoken.js';
+import JWT from 'jsonwebtoken';
 
-module.exports = class Jwt extends IToken {
+export default class Jwt extends IToken {
     constructor() {
         super();
     }

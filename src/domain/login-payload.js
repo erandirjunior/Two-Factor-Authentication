@@ -1,7 +1,7 @@
-const InvalidArgumentError = require('./invalid-argument-error');
-const throwError = require('./throw-error');
+import InvalidArgumentError from './invalid-argument-error.js';
+import throwError from './throw-error.js';
 
-module.exports = class LoginPayload {
+export default class LoginPayload {
     #email;
     #password;
 

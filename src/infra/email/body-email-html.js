@@ -35,4 +35,4 @@ const bodyEmailHtml = (token) => {
         </html>`;
 };
 
-module.exports = bodyEmailHtml;
+export default bodyEmailHtml;

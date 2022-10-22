@@ -1,14 +1,14 @@
-const IToken = require('./itoken');
-const ITokenRepository = require('./itoken-repository');
-const Token = require('./token');
-const { isInstanceOf } = require('./instanceof');
-const DomainError = require('./domain-error');
-const GatewayError = require('./gateway-error');
-const InvalidArgumentError = require('./invalid-argument-error');
-const throwError = require('./throw-error');
-const User = require('./user');
+import IToken from './itoken.js';
+import ITokenRepository from './itoken-repository.js';
+import Token from './token.js';
+import isInstanceOf from './instanceof.js';
+import DomainError from './domain-error.js';
+import GatewayError from './gateway-error.js';
+import InvalidArgumentError from './invalid-argument-error.js';
+import throwError from './throw-error.js';
+import User from './user.js';
 
-module.exports = class TokenAuthentication {
+export default class TokenAuthentication {
     #repository;
     #webToken;
 

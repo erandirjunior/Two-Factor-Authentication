@@ -1,8 +1,8 @@
-const assert = require('assert');
-const TokenAuthentication = require('../../src/domain/token-authentication');
-const TokenRepositoryMock = require('./mocks/token-repository-mock');
-const WebTokenMock = require('./mocks/web-token-mock');
-const Token = require('../../src/domain/token');
+import assert from 'assert';
+import TokenAuthentication from '../../src/domain/token-authentication.js';
+import TokenRepositoryMock from './mocks/token-repository-mock.js';
+import WebTokenMock from './mocks/web-token-mock.js';
+import Token from '../../src/domain/token.js';
 const tokenAuthentication = new TokenAuthentication(TokenRepositoryMock, WebTokenMock);
 const token = new Token({
     token: '13eb4cb6-35dd-4536-97e6-0ed0e4fb1fb3',

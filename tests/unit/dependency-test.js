@@ -1,13 +1,13 @@
-const IEmail = require('../../src/domain/iemail');
-const IGenerateToken = require('../../src/domain/igenerate-token');
-const IPasswordHash = require('../../src/domain/ipassword-hash');
-const IRepository = require('../../src/domain/irepository');
-const ITokenRepository = require('../../src/domain/itoken-repository');
-const IToken = require('../../src/domain/itoken');
-const LoginPayload = require('../../src/domain/login-payload');
-const Token = require('../../src/domain/token');
-const User = require('../../src/domain/user');
-const assert = require("assert");
+import IEmail from "./../../src/domain/iemail.js";
+import IGenerateToken from '../../src/domain/igenerate-token.js';
+import IPasswordHash from '../../src/domain/ipassword-hash.js';
+import IRepository from '../../src/domain/irepository.js';
+import ITokenRepository from '../../src/domain/itoken-repository.js';
+import IToken from '../../src/domain/itoken.js';
+import LoginPayload from '../../src/domain/login-payload.js';
+import Token from '../../src/domain/token.js';
+import User from '../../src/domain/user.js';
+import assert from "assert";
 
 const email = new IEmail({});
 const generateToken = new IGenerateToken({});

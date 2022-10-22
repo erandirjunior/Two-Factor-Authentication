@@ -1,16 +1,16 @@
-const User = require('./user');
-const IRepository = require('./irepository');
-const IEmail = require('./iemail');
-const IPasswordHash = require('./ipassword-hash');
-const IGenerateToken = require('./igenerate-token');
-const LoginPayload = require('./login-payload');
-const { isInstanceOf } = require('./instanceof');
-const DomainError = require('./domain-error');
-const GatewayError = require('./gateway-error');
-const InvalidArgumentError = require('./invalid-argument-error');
-const throwError = require('./throw-error');
+import User from './user.js';
+import IRepository from './irepository.js';
+import IEmail from './iemail.js';
+import IPasswordHash from './ipassword-hash.js';
+import IGenerateToken from './igenerate-token.js';
+import LoginPayload from './login-payload.js';
+import isInstanceOf from './instanceof.js';
+import DomainError from './domain-error.js';
+import GatewayError from './gateway-error.js';
+import InvalidArgumentError from './invalid-argument-error.js';
+import throwError from './throw-error.js';
 
-module.exports = class UserAuthentication {
+export default class UserAuthentication {
     #repository;
     #emailGateway;
     #hashService;

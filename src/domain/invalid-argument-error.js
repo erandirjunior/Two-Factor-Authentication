@@ -1,4 +1,4 @@
-module.exports = class InvalidArgumentError extends Error {
+export default class InvalidArgumentError extends Error {
     constructor(message) {
         super(message);
     }

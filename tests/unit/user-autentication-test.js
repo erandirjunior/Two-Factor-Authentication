@@ -1,11 +1,11 @@
-const assert = require('assert');
-const UserAuthentication = require('../../src/domain/user-authentication');
-const EmailMock = require('./mocks/email-mock');
-const RepositoryMock = require('./mocks/repository-mock');
-const HashMock = require('./mocks/hash-mock');
-const TokenMock = require('./mocks/token-mock');
-const LoginPayload = require('../../src/domain/login-payload');
-const DomainError = require('../../src/domain/domain-error');
+import assert from 'assert';
+import UserAuthentication from '../../src/domain/user-authentication.js';
+import EmailMock from './mocks/email-mock.js';
+import RepositoryMock from './mocks/repository-mock.js';
+import HashMock from './mocks/hash-mock.js';
+import TokenMock from './mocks/token-mock.js';
+import LoginPayload from '../../src/domain/login-payload.js';
+import DomainError from '../../src/domain/domain-error.js';
 const payload = new LoginPayload('erandir@email.com', '1234567');
 const userAuthentication = new UserAuthentication(
     RepositoryMock,

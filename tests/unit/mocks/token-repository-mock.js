@@ -1,5 +1,5 @@
-const ITokenRepository = require('../../../src/domain/itoken-repository');
-const User = require('../../../src/domain/user');
+import ITokenRepository from '../../../src/domain/itoken-repository.js';
+import User from '../../../src/domain/user.js';
 
 class TokenRepositoryMock extends ITokenRepository {
     throwException = false;
@@ -39,4 +39,4 @@ class TokenRepositoryMock extends ITokenRepository {
     }
 }
 
-module.exports = new TokenRepositoryMock();
+export default new TokenRepositoryMock();

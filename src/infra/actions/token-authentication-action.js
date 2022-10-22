@@ -1,8 +1,8 @@
-const { loadModel } = require('../persistence/model');
-const { TokenRepository } = require('../persistence/repository');
-const TokenAuthentication = require('../../domain/token-authentication');
-const Jwt = require('../jwt/jwt');
-const Token = require('../../domain/token');
+import loadModel from '../persistence/model.js';
+import { TokenRepository } from '../persistence/repository.js';
+import TokenAuthentication from '../../domain/token-authentication.js';
+import Jwt from '../jwt/jwt.js';
+import Token from '../../domain/token.js';
 
 
 const createTokenAuthentication = async (payload) => {
@@ -17,4 +17,4 @@ const createTokenAuthentication = async (payload) => {
     return await tokenAuthentication.authenticate(token);
 }
 
-module.exports = createTokenAuthentication;
+export default createTokenAuthentication;

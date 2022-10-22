@@ -1,4 +1,4 @@
-module.exports = class ITokenRepository {
+export default class ITokenRepository {
     findByToken(token) {
         throw Error('Must be implemented');
     }

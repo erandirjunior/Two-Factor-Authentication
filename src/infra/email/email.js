@@ -1,8 +1,8 @@
-const IEmail = require('./../../domain/iemail');
-const nodemailer = require("nodemailer");
-const bodyEmailHtml = require('./body-email-html');
+import IEmail from './../../domain/iemail.js';
+import nodemailer from "nodemailer";
+import bodyEmailHtml from './body-email-html.js';
 
-module.exports = class Email extends IEmail {
+export default class Email extends IEmail {
     constructor() {
         super();
     }

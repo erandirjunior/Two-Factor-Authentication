@@ -1,9 +1,9 @@
-const IPasswordHash = require('./../../domain/ipassword-hash');
-const Bcrypt = require('bcrypt');
-const { promisify } = require('util');
+import IPasswordHash from './../../domain/ipassword-hash.js';
+import Bcrypt from 'bcrypt';
+import { promisify } from 'util';
 const compareAsync = promisify(Bcrypt.compare);
 
-module.exports = class PasswordHash extends IPasswordHash {
+export default class PasswordHash extends IPasswordHash {
     constructor() {
         super();
     }

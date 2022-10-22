@@ -1,4 +1,4 @@
-const IToken = require('../../../src/domain/itoken');
+import IToken from '../../../src/domain/itoken.js';
 
 class WebTokenMock extends IToken {
     throwException = false;
@@ -16,4 +16,4 @@ class WebTokenMock extends IToken {
     }
 }
 
-module.exports = new WebTokenMock();
+export default new WebTokenMock();

@@ -1,5 +1,5 @@
-const { loadEnv } = require('./src/infra/env/load-env');
-const { init } = require('./src/infra/http/hapi/server');
+import loadEnv from './src/infra/env/load-env.js';
+import init from './src/infra/http/hapi/server.js';
 
 async function run() {
     await loadEnv();

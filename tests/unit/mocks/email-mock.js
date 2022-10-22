@@ -1,4 +1,4 @@
-const IEmail = require('../../../src/domain/iemail');
+import IEmail from '../../../src/domain/iemail.js';
 
 class EmailMock extends IEmail {
     throwException = false;
@@ -11,4 +11,4 @@ class EmailMock extends IEmail {
     }
 }
 
-module.exports = new EmailMock();
+export default new EmailMock();

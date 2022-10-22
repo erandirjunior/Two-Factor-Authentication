@@ -1,4 +1,4 @@
-module.exports = class IGenerateToken {
+export default class IGenerateToken {
     getToken() {
         throw Error('Must be implemented');
     }

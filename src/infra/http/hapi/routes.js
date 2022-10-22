@@ -1,9 +1,9 @@
-const Joi = require('joi');
-const InvalidArgumentError = require('./../../../domain/invalid-argument-error');
-const GatewayError = require('./../../../domain/gateway-error');
-const Boom = require('@hapi/boom');
-const createUserAuthentication = require('../../actions/user-authentication-action');
-const createTokenAuthentication = require('../../actions/token-authentication-action');
+import Joi from 'joi';
+import InvalidArgumentError from './../../../domain/invalid-argument-error.js';
+import GatewayError from './../../../domain/gateway-error.js';
+import Boom from '@hapi/boom';
+import createUserAuthentication from '../../actions/user-authentication-action.js';
+import createTokenAuthentication from '../../actions/token-authentication-action.js';
 
 const handlerError = (error) => {
     if (error instanceof GatewayError) {
@@ -78,6 +78,4 @@ const routes = [
     }
 ]
 
-module.exports = {
-    routes
-}
+export default routes;
