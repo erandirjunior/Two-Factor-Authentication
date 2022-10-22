@@ -4,10 +4,6 @@ export default class Database {
     static connection;
 
     static async getConnection() {
-        if (Database.connection) {
-            return Database.connection;
-        }
-
         const database = process.env.DB_DATABASE;
         const user = process.env.DB_USER;
         const password = process.env.DB_PASSWORD;
