@@ -35,15 +35,15 @@ export default class UserAuthentication {
         }
 
         if (!this.#isInstanceOf(emailGateway, IEmail)) {
-            throwError(DomainError, 'Invalid gateway dependency');
+            throwError(DomainError, 'Invalid email gateway dependency');
         }
 
         if (!this.#isInstanceOf(passwordHash, IPasswordHash)) {
-            throwError(DomainError, 'Invalid hash dependency');
+            throwError(DomainError, 'Invalid hash service dependency');
         }
 
         if (!this.#isInstanceOf(tokenService, IGenerateToken)) {
-            throwError(DomainError, 'Invalid token dependency');
+            throwError(DomainError, 'Invalid token service dependency');
         }
     }
 
@@ -85,7 +85,7 @@ export default class UserAuthentication {
         }
 
         if (!this.#isInstanceOf(registeredUser, User)) {
-            throwError(DomainError, 'Invalid user instance');
+            throwError(DomainError, 'Invalid user instance!');
         }
 
         const passwordsAreEquals = await this.#hashService.compare(user.password, registeredUser.password);

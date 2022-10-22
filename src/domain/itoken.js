@@ -1,5 +1,5 @@
 export default class IToken {
     generateWebToken(user) {
-        throw Error('Must be implemented')
+        throw Error('Method must be implemented!');
     }
 }

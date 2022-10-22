@@ -47,7 +47,7 @@ export default class TokenAuthentication {
         }
 
         if (!isInstanceOf(user, User)) {
-            throwError(DomainError, 'Invalid user object!');
+            throwError(DomainError, 'Invalid user instance!');
         }
 
         if (user.expired) {

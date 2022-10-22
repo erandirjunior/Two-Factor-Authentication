@@ -1,9 +1,9 @@
 export default class ITokenRepository {
     findByToken(token) {
-        throw Error('Must be implemented');
+        throw Error('Method must be implemented!');
     }
 
     updateExpiredFieldToTrue(id) {
-        throw Error('Must be implemented');
+        throw Error('Method must be implemented!');
     }
 }
