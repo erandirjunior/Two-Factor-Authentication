@@ -43,11 +43,11 @@ module.exports = class TokenAuthentication {
 
     #throwExceptionIfInvalidUser(user) {
         if (!isInstanceOf(user, User)) {
-            throwError(DomainError, 'Invalid user object hghsgjh!');
+            throwError(DomainError, 'Invalid user object!');
         }
 
         if (user.expired) {
-            throwError(DomainError, 'Token expired. Try login again!');
+            throwError(InvalidArgumentError, 'Token expired. Try login again!');
         }
     }
 
