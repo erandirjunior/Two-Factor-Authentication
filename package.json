@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "node_modules/nodemon/bin/nodemon.js index.js",
-    "test": "nyc --reporter=html ./node_modules/mocha/bin/mocha.js ./tests/* --exit"
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js ./tests/* --coverage --config='{ \"coverageReporters\": [\"html\"] }'\n"
   },
   "keywords": [],
   "author": "",
@@ -28,8 +28,7 @@
     "short-uuid": "^4.2.0"
   },
   "devDependencies": {
-    "mocha": "^10.0.0",
-    "nodemon": "^2.0.20",
-    "nyc": "^15.1.0"
+    "jest": "^29.2.1",
+    "nodemon": "^2.0.20"
   }
 }

@@ -13,6 +13,7 @@ const userAuthentication = new UserAuthentication(
     HashMock,
     TokenMock
 );
+expect(result).rejects.toThrow('Invalid token object!');
 
 describe('User Authentication', function () {
     it('Invalid object repository', function () {
