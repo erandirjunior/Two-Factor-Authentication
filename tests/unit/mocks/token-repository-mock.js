@@ -6,6 +6,7 @@ class TokenRepositoryMock extends ITokenRepository {
     throwExceptionUpdate = false;
     throwExceptionTokenExpired = false;
     returnEmpty = false;
+    returnEmptyObj = false;
 
     constructor() {
         super();
@@ -13,17 +14,21 @@ class TokenRepositoryMock extends ITokenRepository {
 
     findByToken(token) {
         if (this.returnEmpty) {
-            return  '';
+            return '';
+        }
+
+        if (this.returnEmptyObj) {
+            return {};
         }
 
         if (this.throwException) {
             throw Error();
         }
 
-        const obj = {id: 1, email: 'erandir@email.com', password: '123456', expired: true};
+        const obj = {id: 1, email: 'erandir@email.com', password: '123456'};
 
         if (this.throwExceptionTokenExpired) {
-            delete obj.expired;
+            obj.expired = true;
         }
 
         let user = new User(obj);
