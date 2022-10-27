@@ -49,7 +49,7 @@ export default class UserAuthentication {
 
     async authenticate(loginPayload) {
         this.#validateUserDataInput(loginPayload);
-        const registeredUser = await this.getUserRegistered(loginPayload);
+        const registeredUser = await this.#getUserRegistered(loginPayload);
 
         try {
             const user = this.#getUserWithUpdatedData(registeredUser);
@@ -67,7 +67,7 @@ export default class UserAuthentication {
         }
     }
 
-    async getUserRegistered(user) {
+    async #getUserRegistered(user) {
         let registeredUser = null;
 
         try {
