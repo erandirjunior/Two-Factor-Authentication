@@ -1,8 +1,6 @@
 import { Sequelize } from 'sequelize';
 
 export default class Database {
-    static connection;
-
     static async getConnection() {
         const database = process.env.DB_DATABASE;
         const user = process.env.DB_USER;

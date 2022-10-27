@@ -1,4 +1,3 @@
-import assert from 'assert';
 import TokenAuthentication from '../../src/domain/token-authentication.js';
 import TokenRepositoryMock from './mocks/token-repository-mock.js';
 import WebTokenMock from './mocks/web-token-mock.js';
@@ -76,5 +75,5 @@ test('Generate token', async () => {
     WebTokenMock.throwException = false;
     const result = await tokenAuthentication.authenticate(token);
 
-    assert.equal(result, expected);
+    expect(result).toBe(expected);
 });

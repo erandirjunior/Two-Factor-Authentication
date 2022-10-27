@@ -1,11 +1,9 @@
-import assert from 'assert';
 import UserAuthentication from '../../src/domain/user-authentication.js';
 import EmailMock from './mocks/email-mock.js';
 import RepositoryMock from './mocks/repository-mock.js';
 import HashMock from './mocks/hash-mock.js';
 import TokenMock from './mocks/token-mock.js';
 import LoginPayload from '../../src/domain/login-payload.js';
-import DomainError from '../../src/domain/domain-error.js';
 const payload = new LoginPayload('erandir@email.com', '1234567');
 const userAuthentication = new UserAuthentication(
     RepositoryMock,
@@ -13,7 +11,6 @@ const userAuthentication = new UserAuthentication(
     HashMock,
     TokenMock
 );
-// expect(result).rejects.toThrow('Invalid token object!');
 
 test('Invalid object repository', function () {
     const result = () => new UserAuthentication(

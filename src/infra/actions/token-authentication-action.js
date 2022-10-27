@@ -4,7 +4,6 @@ import TokenAuthentication from '../../domain/token-authentication.js';
 import Jwt from '../jwt/jwt.js';
 import Token from '../../domain/token.js';
 
-
 const createTokenAuthentication = async (payload) => {
     const userModel = await loadModel();
     const repository = new TokenRepository(userModel);
