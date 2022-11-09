@@ -59,17 +59,17 @@ test('Error generate web token not implemented', () => {
     expect(result).toThrowError('Method must be implemented!');
 });
 
-test('Error parameter did not send', () => {
+test('Error parameter did not send login payload object', () => {
     const result = () => new LoginPayload();
     expect(result).toThrowError('Fields email and password must be filled!');
 });
 
-test('Error parameter did not send', () => {
+test('Error parameter did not send to token object', () => {
     const result = () => new Token({});
     expect(result).toThrowError('Fields token and emailToken cannot be empty!');
 });
 
-test('Error parameter not send', () => {
+test('Error parameter not send to user object', () => {
     const result = () => new User({});
     expect(result).toThrowError('Invalid user data!');
 });
