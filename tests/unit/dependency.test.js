@@ -29,47 +29,47 @@ test('Error get email token implemented', () => {
     expect(result).toThrowError('Method must be implemented!');
 });
 
-test('Error password compare implemented', () => {
+test('Error password compare not implemented', () => {
     const result = () => passwordHash.compare();
     expect(result).toThrowError('Method must be implemented!');
 });
 
-test('Error find by email implemented', () => {
+test('Error find by email not implemented', () => {
     const result = () => repository.findByEmail();
     expect(result).toThrowError('Method must be implemented!');
 });
 
-test('Error update implemented', () => {
+test('Error update not implemented', () => {
     const result = () => repository.update({});
     expect(result).toThrowError('Method must be implemented!');
 });
 
-test('Error find by token implemented', () => {
+test('Error find by token not implemented', () => {
     const result = () => tokenRepository.findByToken({});
     expect(result).toThrowError('Method must be implemented!');
 });
 
-test('Error update expire field implemented', () => {
+test('Error update expire field not implemented', () => {
     const result = () => tokenRepository.updateExpiredFieldToTrue();
     expect(result).toThrowError('Method must be implemented!');
 });
 
-test('Error generate implemented', () => {
+test('Error generate web token not implemented', () => {
     const result = () => tokenWeb.generateWebToken();
     expect(result).toThrowError('Method must be implemented!');
 });
 
-test('Error parameter not send to login payload', () => {
+test('Error parameter did not send', () => {
     const result = () => new LoginPayload();
     expect(result).toThrowError('Fields email and password must be filled!');
 });
 
-test('Error parameter not send to token', () => {
+test('Error parameter did not send', () => {
     const result = () => new Token({});
     expect(result).toThrowError('Fields token and emailToken cannot be empty!');
 });
 
-test('Error parameter not send to user', () => {
+test('Error parameter not send', () => {
     const result = () => new User({});
     expect(result).toThrowError('Invalid user data!');
 });
